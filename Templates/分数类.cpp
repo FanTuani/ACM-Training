@@ -18,4 +18,5 @@ struct P {
         q /= g, w /= g;
         return P(w, q);
     }
+    P operator*(const P& b) { return P(fm * b.fm, fz * b.fz); }
 } dp[N];

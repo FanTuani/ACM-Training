@@ -68,6 +68,7 @@ signed main() {
         while (r > R) {
             del(r--);
         }
+        // ans: 区间不同数的个数
         if (ans < R - L + 1) {
             out[idx] = 0;
         } else {

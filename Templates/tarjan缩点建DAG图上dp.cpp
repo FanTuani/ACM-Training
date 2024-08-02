@@ -1,13 +1,11 @@
-// 强连通分量
+// tarjan缩点建DAG图上dp
 #include <bits/stdc++.h>
 #define int long long
 using namespace std;
 const int N = 2e5 + 10, INF = 0x3f3f3f3f3f3f3f;
-// scc[i]: i 号点所属的强联通分量编号
-// cscc: 总强联通分量数
-int dfn[N], low[N], cnt, scc[N], cscc;
-bool instk[N], scvis[N];
-vector<int> con[N], sc[N];
+int dfn[N], low[N], cnt, scc[N], cscc, w[N], cow[N], dp[N], in[N];
+bool instk[N];
+vector<int> con[N], co[N];
 stack<int> stk;
 void tarjan(int a) {
     low[a] = dfn[a] = ++cnt;
@@ -29,8 +27,27 @@ void tarjan(int a) {
             stk.pop();
             instk[top] = false;
             scc[top] = cscc;
-            sc[cscc].push_back(top);
+            cow[cscc] += w[top];  // 累加点权
         } while (top != a);
+    }
+}
+void topo() {
+    queue<int> q;
+    for (int i = 1; i <= cscc; i++) {
+        if (in[i] == 0) {
+            dp[i] = cow[i];
+            q.push(i);
+        }
+    }
+    while (q.size()) {
+        int a = q.front();
+        q.pop();
+        for (int t : co[a]) {
+            if (--in[t] == 0) {
+                q.push(t);
+                dp[t] = max(dp[t], dp[a] + cow[t]); // DAG 上 dp
+            }
+        }
     }
 }
 signed main() {
@@ -38,6 +55,9 @@ signed main() {
     cin.tie(0);
     int n, m;
     cin >> n >> m;
+    for (int i = 1; i <= n; i++) {
+        cin >> w[i];
+    }
     for (int j = 1; j <= m; j++) {
         int f, t;
         cin >> f >> t;
@@ -47,15 +67,19 @@ signed main() {
         if (!dfn[i])
             tarjan(i);
     }
-    cout << cscc << '\n';
+    // 缩点
     for (int i = 1; i <= n; i++) {
-        if (scvis[scc[i]])
-            continue;
-        scvis[scc[i]] = true;
-        sort(sc[scc[i]].begin(), sc[scc[i]].end());
-        for (int t : sc[scc[i]]) {
-            cout << t << ' ';
+        for (int t : con[i]) {
+            if (scc[i] != scc[t]) {
+                co[scc[i]].push_back(scc[t]);
+                in[scc[t]]++;
+            }
         }
-        cout << '\n';
     }
+    topo();
+    int ans = 0;
+    for (int i = 1; i <= cscc; i++) {
+        ans = max(ans, dp[i]);
+    }
+    cout << ans;
 }

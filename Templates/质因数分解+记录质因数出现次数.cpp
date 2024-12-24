@@ -14,4 +14,3 @@ int calc(int x) {
         mp[x]++;
     }
 }
-// sqrt(x) * log(x)

@@ -9,7 +9,8 @@ inline __int128 read() {
         ch = getchar();
     }
     while (ch >= '0' && ch <= '9') {
-        x = (x << 1) + (x << 3) + (ch ^ 48);
+        x = (x << 1) + (x << 3) + (ch ^ 48); // x * 10 char->int
+        // x = x * 10 + ch - '0';
         ch = getchar();
     }
     return x * f;

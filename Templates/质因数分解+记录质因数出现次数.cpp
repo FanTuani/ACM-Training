@@ -1,3 +1,4 @@
+// 质因数分解 记录质因数出现次数
 #include <bits/stdc++.h>
 using namespace std;
 map<int, int> mp;

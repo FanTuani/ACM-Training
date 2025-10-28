@@ -1,3 +1,4 @@
+// 快速幂 逆元
 int ksm(int a, int b, int mod) {
     int res = 1;
     while (b) {

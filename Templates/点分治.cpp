@@ -17,7 +17,7 @@ void df(int a, int f) { // 求子树的重心
         sz[a] += sz[t];
         mxs = max(mxs, sz[t]);
     }
-    mxs = max(mxs, n - sz[a]);
+    mxs = max(mxs, n - sz[a]); // 勿忘
     if (mxs <= n / 2) {
         ctr = a;
         sz[f] = n - sz[a];
@@ -36,6 +36,8 @@ void dfs(int a, int f, int dep) { // 求答案
 }
 void run(int a) {
     // 对包含 a 的路径求答案
+    // 注意在此清空求答案的临时数组
+    // 每次 run 相当于单独求一棵树的答案
     del[a] = true;
     cnt[0] = 1;
     for (int t : con[a]) {
@@ -56,9 +58,9 @@ void run(int a) {
         if (del[t])
             continue;
         ctr = 0;
-        n = sz[t];
+        n = sz[t]; // n 会改变，检查在其它地方的使用
         df(t, a);
-        run(ctr);
+        run(ctr); // 参数是 ctr
     }
 }
 signed main() {

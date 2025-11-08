@@ -1,5 +1,10 @@
 // __int128 read / print
-#include <cstdio>
+#include <bits/stdc++.h>
+using namespace std;
+
+mt19937 rng(chrono::steady_clock::now().time_since_epoch().count());
+// shuffle(fir + 1, fir + 1 + m, rng);
+
 inline __int128 read() {
     __int128 x = 0, f = 1;
     char ch = getchar();
@@ -9,7 +14,7 @@ inline __int128 read() {
         ch = getchar();
     }
     while (ch >= '0' && ch <= '9') {
-        x = (x << 1) + (x << 3) + (ch ^ 48); // x * 10 char->int
+        x = (x << 1) + (x << 3) + (ch ^ 48);  // x * 10 char->int
         // x = x * 10 + ch - '0';
         ch = getchar();
     }
